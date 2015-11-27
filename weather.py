@@ -23,6 +23,14 @@ def getStations(api_key, state, city):
 	parsedJson = json.loads(weatherJson)
 	return parsedJson
 
+
+def getConditions(api_key, state, city):
+	url = 'http://api.wunderground.com/api/' + api_key + '/conditions/q/' + state + '/' + city + '.json'
+	weatherJson = weather_readers.connectionReader(url)
+	parsedJson = json.loads(weatherJson)
+	return parsedJson
+
+
 thingTest = getStations(weatherKey1, 'ca', 'santa_cruz')
 print thingTest['location']['nearby_weather_stations']['airport']['station'][0].keys()
 print thingTest['location']['nearby_weather_stations']['pws']['station'][0].keys()
@@ -32,6 +40,12 @@ print thingTest['location']['nearby_weather_stations']['pws']['station'][0].keys
 
 conString = ''
 
+
+
+###		Make it still do what it orginally did
+
+orignalThing = getConditions(weatherKey1, 'ca', 'santa_cruz')
+print  orignalThing
 
 
 	# TO DO
