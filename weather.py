@@ -9,34 +9,22 @@ import weather_readers
 weatherKey0 = weather_readers.fileReader('.wukey0')
 weatherKey1 = weather_readers.fileReader('.wukey1')
 
+
 ###		Grab they db credentials
 
 pgHostName = weather_readers.fileReader('.weatherhost')
 pgWord = weather_readers.fileReader('.pgwrd')
 
 
-###		Get Stations
 
-def getStations(api_key, state, city):
-	url = 'http://api.wunderground.com/api/' + api_key + '/geolookup/q/' + state + '/' + city + '.json'
-	weatherJson = weather_readers.connectionReader(url)
-	parsedJson = json.loads(weatherJson)
-	return parsedJson
+###		Printing things for now
 
-
-def getConditions(api_key, state, city):
-	url = 'http://api.wunderground.com/api/' + api_key + '/conditions/q/' + state + '/' + city + '.json'
-	weatherJson = weather_readers.connectionReader(url)
-	parsedJson = json.loads(weatherJson)
-	return parsedJson
-
-
-thingTest = getStations(weatherKey1, 'ca', 'santa_cruz')
+thingTest = weather_readers.getStations(weatherKey1, 'ca', 'santa_cruz')
 print thingTest['location']['nearby_weather_stations']['airport']['station'][0].keys()
 print thingTest['location']['nearby_weather_stations']['pws']['station'][0].keys()
 
 
-###		Make young connection string
+###		Make the connection string (not close to working)
 
 conString = ''
 
@@ -44,7 +32,7 @@ conString = ''
 
 ###		Make it still do what it orginally did
 
-orignalThing = getConditions(weatherKey1, 'ca', 'santa_cruz')
+orignalThing = weather_readers.getConditions(weatherKey1, 'ca', 'santa_cruz')
 print  orignalThing
 
 
