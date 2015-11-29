@@ -29,13 +29,13 @@ def updateStations(api_key, state, city):
 
 		 # WRITE INSERT STATEMENT FOR AIRPORT STATION DATA
 	for airport in airportStations:
-		airportUpdate += """INSERT INTO stations (id, city, state, country, lat, lon) VALUES ('%s', '%s', '%s', '%s', %f, %f);""" %(
+		airportUpdate += """INSERT INTO stations (wu_id, city, state, country, lat, lon) VALUES ('%s', '%s', '%s', '%s', %f, %f);""" %(
 			airport['icao'], airport['city'], airport['state'], airport['country'], float(airport['lat']), float(airport['lon']))
 		airportUpdate += ' \n'
 
 		# WRITE INSERT STATEMENT FOR PERSONAL STATION DATA
 	for station in personalStations:
-		personalUpdate += """INSERT INTO stations (id, city, state, country, lat, lon, neighborhood, distance_mi, distance_km) VALUES (%s, %s, %s, %s, %f, %f, %s, %i, %i);""" %(
+		personalUpdate += """INSERT INTO stations (wu_id, city, state, country, lat, lon, neighborhood, distance_mi, distance_km) VALUES (%s, %s, %s, %s, %f, %f, %s, %i, %i);""" %(
 				station['id'], station['city'], station['state'], station['country'], float(station['lat']), float(station['lon']),
 				station['neighborhood'], int(station['distance_mi']), int(station['distance_km']))
 		personalUpdate += ' \n'

@@ -13,25 +13,16 @@ weatherKey1 = readers_and_writers.fileReader('.wukey1')
 pgHostName = readers_and_writers.fileReader('.weatherhost')
 pgWord = readers_and_writers.fileReader('.pgwrd')
 
+# Still doing this stuff in python instead of shell so we can do fancier stuff later
+
 
 ###		Get station data
 
-testPrint = getters_and_setters.updateStations(weatherKey1, 'ca', 'santa_cruz')
-print 'testPrint:', '\n', testPrint
+scStations = getters_and_setters.updateStations(weatherKey1, 'ca', 'santa_cruz')
+readers_and_writers.fileWriter('station_insert.txt', scStations)
 
 
-
-
-###		Make it still do what it orginally did
+###		Make it still do what it orginally did for now
 
 orignalThing = getters_and_setters.getConditions(weatherKey1, 'ca', 'santa_cruz')
 # print  orignalThing
-
-
-	# TO DO
-# connection business
-# pull stations in santa cruz
-# loop through and build the insert string
-# clear DB and use the new ones (later make sure they're in the db and upload if not)
-# pull current observations for each station ID (probably needs a new query)
-# load the estimates into the current observations table
