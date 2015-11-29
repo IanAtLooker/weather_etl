@@ -35,7 +35,7 @@ def updateStations(api_key, state, city):
 
 		# WRITE INSERT STATEMENT FOR PERSONAL STATION DATA
 	for station in personalStations:
-		personalUpdate += """INSERT INTO stations (wu_id, city, state, country, lat, lon, neighborhood, distance_mi, distance_km) VALUES (%s, %s, %s, %s, %f, %f, %s, %i, %i);""" %(
+		personalUpdate += """INSERT INTO stations (wu_id, city, state, country, lat, lon, neighborhood, distance_mi, distance_km) VALUES ('%s', '%s', '%s', '%s', %f, %f, '%s', %i, %i);""" %(
 				station['id'], station['city'], station['state'], station['country'], float(station['lat']), float(station['lon']),
 				station['neighborhood'], int(station['distance_mi']), int(station['distance_km']))
 		personalUpdate += ' \n'

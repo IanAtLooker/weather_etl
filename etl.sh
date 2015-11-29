@@ -5,11 +5,11 @@ i="0"
 while true; do
 
 # Destination db business
-PGHOST = `cat .weatherhost`
+PGHOST=`cat .weatherhost`
 # PGDATABASE = weather
-PGUSER = wunderground
-PGPORT = 5432
-PGPASSWORD = `cat .pgwrd`
+PGUSER=wunderground
+PGPORT=5432
+PGPASSWORD=`cat .pgwrd`
 
 i=$[$i+1]
 echo $i
