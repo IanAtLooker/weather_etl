@@ -11,8 +11,11 @@ def getStations(api_key, state, city):
 	return parsedJson
 
 
-def getConditions(api_key, state, city):
-	url = 'http://api.wunderground.com/api/' + api_key + '/conditions/q/' + state + '/' + city + '.json'
+def getConditions(api_key, station_id, is_airport=False):
+	if is_airport:
+		url = 'http://api.wunderground.com/api/' + api_key + '/conditions/q/' + station_id + '.json'
+	else:
+		url = 'http://api.wunderground.com/api/' + api_key + '/conditions/q/pws:' + station_id + '.json'
 	weatherJson = readers_and_writers.connectionReader(url)
 	parsedJson = json.loads(weatherJson)
 	return parsedJson
@@ -42,4 +45,23 @@ def updateStations(api_key, state, city):
 
 	stationUpdate += airportUpdate + personalUpdate
 	return stationUpdate
+
+def observationCleaner(observation):
+	if observation in ("NA", "-9999", "-999", "-9999.00", "-999.00"):
+		obs = "NULL"
+	else:
+		obs = observation
+	return	obs
+
+def nullStringer(observation, valueString, is_int=False, is_float=False):
+	outputString = str(valueString)
+	if observation == "NULL":
+		outputString += ", NULL"
+	else:
+		if is_float:
+			outputString += ", %f" %(float(obs))
+		elif is_int:
+			outputString += ", %i" %(int(obs))
+	return outputString
+
 

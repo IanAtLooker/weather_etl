@@ -13,7 +13,7 @@ PGPASSWORD=`cat .pgwrd`
 # APIKEY=`cat .wukey1`
 
 i=$[$i+1]
-echo $i
+# echo $i
 
 rm station_insert.txt
 echo "station_insert.txt removed on `date -u`"
@@ -35,6 +35,7 @@ done < station_insert.txt
 
 echo "Sleeping on `date -u`"
 
-sleep 43200 
+# sleep 43200 
+sleep 120
 
 done

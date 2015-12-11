@@ -20,13 +20,7 @@ pgWord = readers_and_writers.fileReader('.pgwrd')
 def stationFileWriter(api_key, state, city):
 	stations = getters_and_setters.updateStations(api_key, state, city)
 	readers_and_writers.fileWriter('station_insert.txt', stations)
-	
+
 
 # scStations = getters_and_setters.updateStations(weatherKey1, 'ca', 'santa_cruz')
 # readers_and_writers.fileWriter('station_insert.txt', scStations)
-
-
-###		Make it still do what it orginally did for now
-
-orignalThing = getters_and_setters.getConditions(weatherKey1, 'ca', 'santa_cruz')
-# print  orignalThing
