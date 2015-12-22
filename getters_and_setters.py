@@ -1,6 +1,13 @@
 import json
 import readers_and_writers
+import cleaner_uppers
 
+###		Rename functions because of reasons
+fileReader = readers_and_writers.fileReader
+fileWriter = readers_and_writers.fileWriter
+
+observationCleaner = cleaner_uppers.observationCleaner
+nullStringer = cleaner_uppers.nullStringer
 
 ##		GET YOUNG DATAUMS
 
@@ -11,8 +18,8 @@ def getStations(api_key, state, city):
 	return parsedJson
 
 
-def getConditions(api_key, station_id, is_airport=False):
-	if is_airport:
+def getConditions(api_key, station_id):
+	if len(station_id) <= 4:
 		url = 'http://api.wunderground.com/api/' + api_key + '/conditions/q/' + station_id + '.json'
 	else:
 		url = 'http://api.wunderground.com/api/' + api_key + '/conditions/q/pws:' + station_id + '.json'
@@ -46,4 +53,83 @@ def updateStations(api_key, state, city):
 	stationUpdate += airportUpdate + personalUpdate
 	return stationUpdate
 
+def updateConditions(api_key, station_id):
+	conditionResults = getConditions(api_key, station_id)
+
+	conditionInsert = ""
+	conditionValues = ""
+
+	conditionInsert += "INSERT INTO conditions (wu_station_id"
+	conditionValues += "VALUES ('" + station_id + "'"
+
+	for key in conditionResults['current_observation']:
+		obs = observationCleaner(conditionResults['current_observation'][key])
+
+		if key == "weather":
+			conditionInsert += ", weather"
+			conditionValues += ", '%s'" %(obs)
+		elif key == "windchill_f":
+			conditionInsert += ", windchill"
+			conditionValues += nullStringer(obs, is_int=True)
+		elif key == "pressure_in":
+			conditionInsert += ", pressure"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "solarradiation":
+			conditionInsert += ", solarradiation"
+			conditionValues += ", '%s'" %(obs)
+		elif key == "dewpoint_f":
+			conditionInsert += ", dewpoint"
+			conditionValues += nullStringer(obs, is_int=True)
+		elif key == "wind_mph":
+			conditionInsert += ", wind_speed"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "feelslike_f":
+			conditionInsert += ", feels_like"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "precip_today_in":
+			conditionInsert += ", precipitation_today"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "precip_1hr_in":
+			conditionInsert += ", precipitation_hour"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "nowcast":
+			conditionInsert += ", nowcast"
+			conditionValues += ", '%s'" %(obs)
+		elif key == "temp_f":
+			conditionInsert += ", temperature"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "pressure_trend":
+			conditionInsert += ", pressure_trend"
+			conditionValues += ", '%s'" %(obs)
+		elif key == "visibility_mi":
+			conditionInsert += ", visibility"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "wind_dir":
+			conditionInsert += ", wind_direction"
+			conditionValues += ", '%s'" %(obs)
+		elif key == "wind_degrees":
+			conditionInsert += ", wind_degrees"
+			conditionValues += nullStringer(obs, is_int=True)
+		elif key == "precip_1hr_in":
+			conditionInsert += ", precipitation_hour"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "wind_gust_mph":
+			conditionInsert += ", wind_gust"
+			conditionValues += nullStringer(obs, is_float=True)
+		elif key == "UV":
+			conditionInsert += ", UV"
+			conditionValues += nullStringer(obs, is_int=True)
+		elif key == "observation_epoch":
+			conditionInsert += ", observation_epoch"
+			conditionValues += nullStringer(obs, is_int=True)
+		elif key == "relative_humidity":
+			conditionInsert += ", relative_humidity"
+			conditionValues += nullStringer(obs, is_float=True)
+
+	conditionInsert += ")"
+	conditionValues += ");"
+
+	conditionUpdate = conditionInsert + " " + conditionValues
+
+	return conditionUpdate
 

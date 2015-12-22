@@ -7,7 +7,7 @@ def observationCleaner(observation):
 
 def nullStringer(observation, is_int=False, is_float=False):
 	nullString = ""
-# 	for some reason not *all* of the values are strings
+# 	for some reason not *all* of the values are strings 
 	try:
 		if "%" in observation:
 			observation = float(observation[:-1])/100
